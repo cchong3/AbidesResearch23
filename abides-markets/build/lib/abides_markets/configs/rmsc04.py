@@ -19,7 +19,6 @@ from abides_markets.agents import (
     ValueAgent,
     AdaptiveMarketMakerAgent,
     MomentumAgent,
-
 )
 from abides_markets.models import OrderSizeModel
 from abides_markets.oracles import SparseMeanRevertingOracle

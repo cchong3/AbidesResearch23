@@ -8,4 +8,3 @@ from .noise_agent import NoiseAgent
 from .test_agent import TestAgent
 from .trading_agent import TradingAgent
 from .value_agent import ValueAgent
-
