@@ -9,7 +9,12 @@ from abides_core import NanosecondTime
 from abides_core.utils import str_to_ns
 from abides_core.generators import ConstantTimeGenerator
 
-from .markets_environment import AbidesGymMarketsEnv
+#from .markets_environment import AbidesGymMarketsEnv
+from abides_gym.envs.markets_environment import AbidesGymMarketsEnv
+
+#THIS IS THE BASIC ENVIRONMENT
+#CONFIGURATION FOR RUNNING RMSC04 AS ABIDES CONFIG INSIDE GYM WITH DEEP Q LEARNING AGENT
+#MAPS WHATS HAPPENING IN ABIDES TO THE RL STATE FOR GYM AND HANDING BACK THE ACTIONS SELECTED FROM GYM TO MAKE IT TAKE ACTIONS IN ABIDES (SELLING/BUYING)
 
 
 class SubGymMarketsDailyInvestorEnv_v0(AbidesGymMarketsEnv):

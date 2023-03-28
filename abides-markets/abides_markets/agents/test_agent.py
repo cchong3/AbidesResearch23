@@ -27,7 +27,7 @@ class TestAgent(TradingAgent):
         random_state: Optional[np.random.RandomState] = None,
         symbol: str = "IBM",
         starting_cash: int = 100000,
-        log_orders: bool = False,
+        log_orders: bool = True,
         order_size_model: Optional[OrderSizeGenerator] = None,
         wakeup_time: Optional[NanosecondTime] = None,
     ) -> None:

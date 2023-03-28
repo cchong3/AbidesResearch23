@@ -28,7 +28,7 @@ class ValueAgent(TradingAgent):
         sigma_s: float = 100_000,
         order_size_model=None,
         lambda_a: float = 0.005,
-        log_orders: float = False,
+        log_orders: float = True,
     ) -> None:
         # Base class init.
         super().__init__(id, name, type, random_state, starting_cash, log_orders)

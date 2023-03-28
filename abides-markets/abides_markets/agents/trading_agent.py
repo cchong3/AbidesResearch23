@@ -3,6 +3,7 @@ import sys
 import warnings
 from copy import deepcopy
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Tuple, Union
+from abides_markets.utils import dollarize
 
 import numpy as np
 
@@ -69,7 +70,7 @@ class TradingAgent(FinancialAgent):
         type: Optional[str] = None,
         random_state: Optional[np.random.RandomState] = None,
         starting_cash: int = 100000,
-        log_orders: bool = False,
+        log_orders: bool = True,
     ) -> None:
         # Base class init.
         super().__init__(id, name, type, random_state)
@@ -147,6 +148,8 @@ class TradingAgent(FinancialAgent):
         # Remember whether we have already passed the exchange close time, as far
         # as we know.
         self.mkt_closed: bool = False
+        
+        self.agents_log_dict = list()
 
     # Simulation lifecycle messages.
 
@@ -193,6 +196,8 @@ class TradingAgent(FinancialAgent):
                 self.name, self.fmt_holdings(self.holdings), cash
             )
         )
+        logger.info("Final holdings for {}: {}. Marked to market: {}".format(
+                self.name, self.fmt_holdings(self.holdings), cash))
 
         # Record final results for presentation/debugging.  This is an ugly way
         # to do this, but it is useful for now.
@@ -306,6 +311,10 @@ class TradingAgent(FinancialAgent):
             # class could implement default "portfolio tracking" or "returns tracking"
             # behavior.
             self.order_executed(message.order)
+            logger.info(message.order)
+            #agent_type_dict = self.agents_log_dict[self.type]
+            #agent_type_dict[message.order.agent_id] = []
+            #logger.info("Agent ID " + str(message.order.agent_id) + ": " + message.order.side.value + " " + str(message.order.quantity) + " SHARES (filled @ " + str(dollarize(message.order.fill_price) + ")"))
 
         elif isinstance(message, OrderAcceptedMsg):
             # Call the order_accepted method, which subclasses should extend.

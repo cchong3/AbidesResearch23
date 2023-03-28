@@ -253,6 +253,7 @@ class ExchangeAgent(FinancialAgent):
 
         super().kernel_terminating()
         # print(self.order_books['ABM'].book_log2)
+
         # If the oracle supports writing the fundamental value series for its
         bid_volume, ask_volume = self.order_books["ABM"].get_transacted_volume(
             self.current_time - self.mkt_open
@@ -272,6 +273,15 @@ class ExchangeAgent(FinancialAgent):
             self.metric_trackers[symbol].last_trade = self.order_books[
                 symbol
             ].last_trade
+
+            # Log the order book if requested.
+            if self.book_logging:
+                book = self.order_books[symbol].book_log2
+                dfBook = pd.DataFrame(book)
+                dfBook.set_index("QuoteTime", inplace=True)
+                del dfBook['bids']
+                del dfBook['asks']
+                self.write_log(dfBook, filename="orderbook_{}".format(symbol))
 
         if self.log_orders == None:
             return

@@ -11,6 +11,9 @@ from abides_core.generators import InterArrivalTimeGenerator
 from abides_core.utils import subdict
 from abides_markets.utils import config_add_agents
 
+#RESPONSIBLE FOR PUSHING RL AGENT INTO ABIDES CONFIGURATION
+#THESE ARE ABSTRACT - DEFINES WHAT YOU NEED TO DO TO MAKE RL AGENT
+#TAKES ABIDES INFO AND ENCODING AND SENDING IT TO GYM
 
 class AbidesGymCoreEnv(gym.Env, ABC):
     """

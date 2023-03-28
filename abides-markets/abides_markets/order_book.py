@@ -637,6 +637,14 @@ class OrderBook:
             "bids": np.array(self.get_l2_bid_data(depth=self.owner.book_log_depth)),
             "asks": np.array(self.get_l2_ask_data(depth=self.owner.book_log_depth)),
         }
+        for i, item in enumerate(self.get_l2_bid_data(depth=self.owner.book_log_depth)):
+            row[f"Bid_{i}_Price"] = item[0]
+            row[f"Bid_{i}_Quantity"] = item[1]
+
+        for i, item in enumerate(self.get_l2_ask_data(depth=self.owner.book_log_depth)):
+            row[f"Ask_{i}_Price"] = item[0]
+            row[f"Ask_{i}_Quantity"] = item[1]
+
         # if (row["bids"][0][0]>=row["asks"][0][0]): print("WARNING: THIS IS A REAL PROBLEM: an order book contains bids and asks at the same quote price!")
         self.book_log2.append(row)
 

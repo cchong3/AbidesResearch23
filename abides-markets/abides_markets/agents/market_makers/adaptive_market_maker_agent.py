@@ -65,7 +65,7 @@ class AdaptiveMarketMakerAgent(TradingAgent):
         price_skew_param=None,
         spread_alpha: float = 0.85,
         backstop_quantity: int = 0,
-        log_orders: bool = False,
+        log_orders: bool = True,
         min_imbalance=0.9,
     ) -> None:
 

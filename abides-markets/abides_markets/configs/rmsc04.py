@@ -42,11 +42,13 @@ def build_config(
     book_logging=True,
     book_log_depth=10,
     stream_history_length=500,
-    exchange_log_orders=None,
+    #exchange_log_orders=None,
+    exchange_log_orders=True,
     # 2) Noise Agent
     num_noise_agents=1000,
     # 3) Value Agents
     num_value_agents=102,
+    #num_value_agents=12,
     r_bar=100_000,  # true mean fundamental value
     kappa=1.67e-15,  # Value Agents appraisal of mean-reversion
     lambda_a=5.7e-12,  # ValueAgent arrival rate
@@ -58,7 +60,7 @@ def build_config(
     megashock_mean=1000,
     megashock_var=50_000,
     # 4) Market Maker Agents
-    # each elem of mm_params is tuple (window_size, pov, num_ticks, wake_up_freq, min_order_size)
+    # # each elem of mm_params is tuple (window_size, pov, num_ticks, wake_up_freq, min_order_size)
     mm_window_size="adaptive",
     mm_pov=0.025,
     mm_num_ticks=10,
@@ -72,6 +74,7 @@ def build_config(
     mm_cancel_limit_delay=50,  # 50 nanoseconds
     # 5) Momentum Agents
     num_momentum_agents=12,
+    #num_momentum_agents=102,
     # 6) Test Agents
     num_test_agents=10
 ):
@@ -312,4 +315,5 @@ def build_config(
         "custom_properties": {"oracle": oracle},
         "random_state_kernel": random_state_kernel,
         "stdout_log_level": stdout_log_level,
+        "skip_log": False,
     }
