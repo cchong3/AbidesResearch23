@@ -1,11 +1,13 @@
 import logging
 import sys
 import warnings
+import pandas as pd
 from copy import deepcopy
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Tuple, Union
 from abides_markets.utils import dollarize
 
 import numpy as np
+from abides_core.agent import Agent
 
 from abides_core import Message, NanosecondTime
 from abides_core.utils import fmt_ts
@@ -148,8 +150,6 @@ class TradingAgent(FinancialAgent):
         # Remember whether we have already passed the exchange close time, as far
         # as we know.
         self.mkt_closed: bool = False
-        
-        self.agents_log_dict = list()
 
     # Simulation lifecycle messages.
 
@@ -312,9 +312,6 @@ class TradingAgent(FinancialAgent):
             # behavior.
             self.order_executed(message.order)
             logger.info(message.order)
-            #agent_type_dict = self.agents_log_dict[self.type]
-            #agent_type_dict[message.order.agent_id] = []
-            #logger.info("Agent ID " + str(message.order.agent_id) + ": " + message.order.side.value + " " + str(message.order.quantity) + " SHARES (filled @ " + str(dollarize(message.order.fill_price) + ")"))
 
         elif isinstance(message, OrderAcceptedMsg):
             # Call the order_accepted method, which subclasses should extend.

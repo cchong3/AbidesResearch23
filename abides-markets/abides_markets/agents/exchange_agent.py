@@ -7,6 +7,7 @@ from copy import deepcopy
 from dataclasses import dataclass
 from typing import Any, DefaultDict, Dict, List, Optional, Tuple
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
@@ -209,6 +210,8 @@ class ExchangeAgent(FinancialAgent):
         # Store a list of agents who have requested market close price information.
         # (this is most likely all agents)
         self.market_close_price_subscriptions: List[int] = []
+        
+        self.agents_log_dict = list()
 
     def kernel_initializing(self, kernel: "Kernel") -> None:
         """
@@ -285,6 +288,16 @@ class ExchangeAgent(FinancialAgent):
 
         if self.log_orders == None:
             return
+        
+        # Create Data Frame of all orders executed and log
+        agents_logs_df = pd.DataFrame(self.agents_log_dict)
+        self.write_log(agents_logs_df, filename="DF1")
+        # figure_DF1 = plt.figure("Price over Time")
+        # x = "" #Timestamp
+        # y = price?
+        # plt.plot(x, y)
+        # plt.show()
+        
 
         # If the oracle supports writing the fundamental value series for its
         # symbols, write them to disk.
@@ -905,6 +918,16 @@ class ExchangeAgent(FinancialAgent):
             # Messages that require order book modification (not simple queries) incur the additional
             # parallel processing delay as configured.
             super().send_message(recipient_id, message, delay=self.pipeline_delay)
+            
+            #Prepare list of dicts() for creating Data Frame
+            agent_dict = dict()
+            agent_dict["Timestamp"] = message.order.time_placed
+            agent_dict["AgentID"] = message.order.agent_id
+            agent_dict["Symbol"] = message.order.symbol
+            agent_dict["Price"] = message.order.fill_price
+            agent_dict["Shares"] = message.order.quantity
+            self.agents_log_dict.append(agent_dict)
+            
             if self.log_orders:
                 self.logEvent(message.type(), message.order.to_dict())
         else:
